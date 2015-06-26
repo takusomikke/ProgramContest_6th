@@ -7,6 +7,10 @@ import java.util.Scanner;
 public class SumTest2 {
     public static void main(String[] args) {
 
+//        final int NUMBER_OF_CHOICES=3;
+        final int NUMBER_OF_COMBINATION = 6;
+
+
         @SuppressWarnings("resource")
         Scanner sc = new Scanner(System.in);
 
@@ -33,13 +37,14 @@ public class SumTest2 {
         for(int i = 0 ; i < number;i++){
             for(int j = 0; j< number ; j++){
 
+                //2+6+2=10のような組み合わせではなく、かつ3文字目にフィットする文字が見つかった時にカウントする。
                 if(((lengtharray[i]*2+lengtharray[j] !=sumlength)||(lengtharray[i]+lengtharray[j]*2 !=sumlength))&&(lengthmap.get(lengtharray[i]+lengtharray[j]) != null)){
                     count++;
                 }
             }
         }
 
-        System.out.println("組み合わせの数"+count/6);
+        System.out.println("組み合わせの数"+count/NUMBER_OF_COMBINATION);
 
     }
 }
