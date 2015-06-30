@@ -41,10 +41,13 @@ public class SumTest2 {
          * 1本目、2本目の値の合計が8の時に3本目として2が必要とされる。
          * よって、キーを8、値を2としている。
          */
+        {
+        int length;
         for(int i = 0; i < number; i++){
-            int length = sc.nextInt();
+            length = sc.nextInt();
             lengtharray[i]=length;
             lengthmap.put(sumlength-length, length);
+        }
         }
 
         int count=0;
@@ -59,7 +62,7 @@ public class SumTest2 {
             }
         }
 
-        System.out.println("組み合わせの数"+count/NUMBER_OF_COMBINATION);
+        System.out.println(count/NUMBER_OF_COMBINATION);
 
     }
 }
