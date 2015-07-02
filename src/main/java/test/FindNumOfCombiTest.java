@@ -113,7 +113,7 @@ public class FindNumOfCombiTest {
     private static int countCombi(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
         int count=0;
         for(int i = 0 ; i < lengthlist.size();i++){
-            if(lengthlist.get(i) < sumlength/3){
+            if(lengthlist.get(i) < sumlength / 3){
                 for(int j = i+1; lengthlist.get(j) < (sumlength-lengthlist.get(i))/2.0 ; j++){
 //                    System.out.println("判定前：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")");
                     if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) != null){
