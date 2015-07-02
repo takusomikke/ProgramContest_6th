@@ -73,9 +73,9 @@ public class FindNumOfCombi {
      *
      * ■for文の処理回数を絞る条件
      * 3本の組み合わせ(A,B,C)に対して
-     * for(int j = i+1)でA < Bの条件を、
+     * for(int j = i+1)でA < Bの条件を付与していて、
      * B < C の条件は言い換えると BがBとCの合計値の半分を超えない範囲なので
-     * lengthlist.get(j)<(sumlength-lengthlist.get(i))/2.0 でそのを付与している。
+     * lengthlist.get(j)<(sumlength-lengthlist.get(i))/2.0 でその条件を付与している。
      * また、Aが合計の1/3を超える組み合わせはあり得ないので、超えた時点でbreak。
      *
      * ■カウント条件
