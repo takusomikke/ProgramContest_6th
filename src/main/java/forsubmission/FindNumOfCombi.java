@@ -30,7 +30,7 @@ public class FindNumOfCombi {
         //生成されたリストのソート
         Collections.sort(lengthlist);
 
-        //組み合わせを数え上げます。
+        //組み合わせを数え上げる。
         int count =countCombi(sumlength,lengthlist,lengthmap);
 
         System.out.println(count);
@@ -50,6 +50,8 @@ public class FindNumOfCombi {
      * 1本目、2本目の値の合計が3の時に3本目として7が必要とされる。
      * よって、キーを3、値を7としている。
      *
+     * マップ格納時のif文は、キーが絶対に呼び出されることのない値のときに格納せず、
+     * メモリーを無駄に使わないようにしている。
      */
     private static void createByHand(Scanner sc,int sumlength,int number,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
         int length;
@@ -70,11 +72,11 @@ public class FindNumOfCombi {
      * @param lengthmap     //入力された数字を必要とする数字をキーとして、入力された値を格納されたマップ。
      *
      * ■for文の処理回数を絞る条件
-     * 3本の組み合わせ(①,②,③)に対して
-     * for(int j = i+1)で① < ②の条件を、
-     * ② < ③ の条件は言い換えると ②が②と③の合計値の半分を超えない範囲なので
+     * 3本の組み合わせ(A,B,C)に対して
+     * for(int j = i+1)でA < Bの条件を、
+     * B < C の条件は言い換えると BがBとCの合計値の半分を超えない範囲なので
      * lengthlist.get(j)<(sumlength-lengthlist.get(i))/2.0 でそのを付与している。
-     * また、①が合計の1/3を超える組み合わせはあり得ないので、超えた時点でbreak。
+     * また、Aが合計の1/3を超える組み合わせはあり得ないので、超えた時点でbreak。
      *
      * ■カウント条件
      * 以上の制約を潜り抜け、ハッシュマップがnullを返さなければカウントする。
