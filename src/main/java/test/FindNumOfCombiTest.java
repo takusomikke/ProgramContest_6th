@@ -10,6 +10,13 @@
  * と入力した場合組み合わせの数は　
  * 8328334
  * です。
+ * 最速179ms
+ *
+ * 100000
+ * 100000
+ * と入力した場合の組み合わせの数は
+ * 833283334
+ * 14004ms
  */
 
 package test;
@@ -48,9 +55,11 @@ public class FindNumOfCombiTest {
        * よって、キーを8、値を2としている。
        */
 
+      /*
+       * 1本ずつ入力するか、自動生成か選択
+       */
 //      createByHand(sc,number,sumlength,lengthlist,lengthmap);
-      createByAuto(number,sumlength,lengthlist,lengthmap);
-
+      createByAuto(sumlength,number,lengthlist,lengthmap);
 
       long start = System.currentTimeMillis();
 
@@ -59,17 +68,14 @@ public class FindNumOfCombiTest {
       System.out.println("ソートが完了しました。");
 
 //      ソート後の配列がどうなってるのか確認
-//      for(int i = 0 ; i < lengthlist.length ; i++){
+//      for(int i = 0 ; i < lengthlist.size() ; i++){
 //          System.out.println(lengthlist.get(i));
 //      }
 
-
       System.out.println("計算を開始します。");
 
-
-
       /*
-       * コメントの有り無しを切り替えて使ってね！
+       * コメントの有り無しの切り替え
        */
       int count =countWithoutComment(sumlength,lengthlist,lengthmap);
 //      int count =countWithComment(sumlength,lengthlist,lengthmap);
@@ -77,15 +83,37 @@ public class FindNumOfCombiTest {
       long end = System.currentTimeMillis();
       System.out.println(count);
 
-
-
       System.out.println((end - start)  + "ms");
 
     }//mainメソッドの終わり
 
+    private static void createByAuto(int sumlength,int number,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+        for(int length = 1 ; length <=number;length++){
+            lengthlist.add(length);
+            if(sumlength-length <= length*2 - 3){
+                lengthmap.put(sumlength-length, length);
+            }
+        }
+    }
 
+    private static int countWithoutComment(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+        int count=0;
+        for(int i = 0 ; i < lengthlist.size();i++){
+            if(lengthlist.get(i)>sumlength/3-1){
+                break;
+            }
+            for(int j = i+1; lengthlist.get(j)<(sumlength-lengthlist.get(i))/2.0 ; j++){
+                if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) != null){
+                    count++;
+                }
+            }
+        }
 
-    private static void createByHand(Scanner sc,int number,int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+        return count;
+
+    }
+
+    private static void createByHand(Scanner sc,int sumlength,int number,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
         int length;
         for(int i = 0 ; i < number;i++){
             length = sc.nextInt();
@@ -96,43 +124,6 @@ public class FindNumOfCombiTest {
         }
     }
 
-    private static void createByAuto(int number,int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
-        for(int length = 1 ; length <=number;length++){
-            lengthlist.add(length);
-            if(sumlength-length <= length*2 - 3){
-                lengthmap.put(sumlength-length, length);
-            }
-        }
-    }
-
-    private static void createByAutoRandom(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
-
-    }
-
-    private static int countWithoutComment(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
-        int count=0;
-        for(int i = 0 ; i < lengthlist.size();i++){
-            if(lengthlist.get(i)>sumlength/3-1){
-                break;
-            }
-            for(int j = i+1; lengthlist.get(j)<(sumlength-lengthlist.get(i))/2.0 ; j++){
-                if(lengthlist.get(i)*2+lengthlist.get(j) ==sumlength){
-                    continue;
-                }
-                if(lengthlist.get(i)+lengthlist.get(j)*2 ==sumlength){
-                    continue;
-                }
-                if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) == null){
-                    continue;
-                }
-
-                    count++;
-            }
-        }
-
-        return count;
-
-    }
     private static long countWithComment(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
         long count=0L;
         for(int i = 0 ; i < lengthlist.size();i++){
@@ -176,4 +167,5 @@ public class FindNumOfCombiTest {
         return count;
 
     }
-}
+
+}//クラスの終了
