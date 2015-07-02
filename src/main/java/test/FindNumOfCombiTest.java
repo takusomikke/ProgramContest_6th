@@ -36,6 +36,17 @@ import java.util.Scanner;
 
 public class FindNumOfCombiTest {
 
+    /*
+     * 組み合わせる本数
+     */
+    private static final int NUMB_TO_BE_COMBINED = 3;
+
+    /*
+     * 棒の長さは、1以上の自然数で重複なしなので
+     * 2本の最小値は 1 + 2 = 3である。
+     */
+    private static final int MIN_NUM_OF_SUM = 3;
+
     public static void main(String[] args) {
 
       @SuppressWarnings("resource")
@@ -69,9 +80,7 @@ public class FindNumOfCombiTest {
 
       long start = System.currentTimeMillis();
 
-      System.out.println("入力された長さを昇順にソートしています。");
       Collections.sort(lengthlist);
-      System.out.println("ソートが完了しました。");
 
 //      ソート後の配列がどうなってるのか確認
 //      for(int i = 0 ; i < lengthlist.size() ; i++){
@@ -95,7 +104,7 @@ public class FindNumOfCombiTest {
         for(int i = 0 ; i < number;i++){
             length = sc.nextInt();
             lengthlist.add(length);
-            if(sumlength-length <= length*2 - 3){
+            if(sumlength-length <= length*2 - MIN_NUM_OF_SUM){
                 lengthmap.put(sumlength-length, length);
             }
         }
@@ -113,7 +122,7 @@ public class FindNumOfCombiTest {
     private static int countCombi(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
         int count=0;
         for(int i = 0 ; i < lengthlist.size();i++){
-            if(lengthlist.get(i) < sumlength / 3){
+            if(lengthlist.get(i) < sumlength / NUMB_TO_BE_COMBINED){
                 for(int j = i+1; lengthlist.get(j) < (sumlength-lengthlist.get(i))/2.0 ; j++){
 //                    System.out.println("判定前：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")");
                     if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) != null){
