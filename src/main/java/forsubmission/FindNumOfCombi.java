@@ -12,7 +12,7 @@ public class FindNumOfCombi {
     /*
      * 組み合わせる本数
      */
-    private static final int NUMB_TO_BE_COMBINED = 3;
+    private static final int NUM_TO_BE_COMBINED = 3;
 
     /*
      * 棒の長さは、1以上の自然数で重複なしなので
@@ -100,7 +100,7 @@ public class FindNumOfCombi {
     private static int countCombi(int SUM_OF_THREE,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
         int count=0;
         for(int i = 0 ; i < lengthlist.size();i++){
-            if(lengthlist.get(i) < SUM_OF_THREE / NUMB_TO_BE_COMBINED){
+            if(lengthlist.get(i) < SUM_OF_THREE / NUM_TO_BE_COMBINED){
                 for(int j = i+1; lengthlist.get(j) < (SUM_OF_THREE-lengthlist.get(i)) / 2.0 ; j++){
                     if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) != null){
                         count++;
