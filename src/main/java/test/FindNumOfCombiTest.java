@@ -10,13 +10,19 @@
  * と入力した場合組み合わせの数は　
  * 8328334
  * です。
- * 最速175ms
+ * 最速163ms
  *
  * 100000
  * 100000
  * と入力した場合の組み合わせの数は
  * 833283334
  * 13908ms
+ *
+ * 1000000
+ * 1000000
+ * と入力した場合の組み合わせの数は
+ * 1728454710
+ * 1950494ms
  */
 
 package test;
@@ -58,7 +64,7 @@ public class FindNumOfCombiTest {
       /*
        * 1本ずつ入力するか、自動生成か選択
        */
-//      createByHand(sc,number,sumlength,lengthlist,lengthmap);
+//      createByHand(sc,sumlength,number,lengthlist,lengthmap);
       createByAuto(sumlength,number,lengthlist,lengthmap);
 
       long start = System.currentTimeMillis();
@@ -74,11 +80,7 @@ public class FindNumOfCombiTest {
 
       System.out.println("計算を開始します。");
 
-      /*
-       * コメントの有り無しの切り替え
-       */
-      int count =countWithoutComment(sumlength,lengthlist,lengthmap);
-//      int count =countWithComment(sumlength,lengthlist,lengthmap);
+      int count =countCombi(sumlength,lengthlist,lengthmap);
 
       long end = System.currentTimeMillis();
       System.out.println(count);
@@ -87,33 +89,6 @@ public class FindNumOfCombiTest {
 
     }//mainメソッドの終わり
 
-    private static void createByAuto(int sumlength,int number,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
-        for(int length = 1 ; length <=number;length++){
-            lengthlist.add(length);
-            if(sumlength-length <= length*2 - 3){
-                lengthmap.put(sumlength-length, length);
-            }
-        }
-    }
-
-    private static int countWithoutComment(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
-        int count=0;
-        for(int i = 0 ; i < lengthlist.size();i++){
-            if(lengthlist.get(i) <= sumlength/3-1){
-                for(int j = i+1; lengthlist.get(j)<(sumlength-lengthlist.get(i))/2.0 ; j++){
-                    if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) != null){
-                        count++;
-                    }
-                }
-            }else{
-                break;
-            }
-
-        }
-
-        return count;
-
-    }
 
     private static void createByHand(Scanner sc,int sumlength,int number,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
         int length;
@@ -126,48 +101,31 @@ public class FindNumOfCombiTest {
         }
     }
 
-    private static long countWithComment(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
-        long count=0L;
-        for(int i = 0 ; i < lengthlist.size();i++){
-            if(lengthlist.get(i)>sumlength/3){
-                break;
-            }
-            for(int j = i+1; lengthlist.get(j)<(sumlength-lengthlist.get(i))/2.0 ; j++){
-
-               System.out.println("判定前：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")");
-
-               if(lengthlist.get(i)+lengthlist.get(j)>=sumlength){
-
-                    System.out.println("if一個目：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")\n");
-                    continue;
-
-               }
-
-               if(lengthlist.get(i)*2+lengthlist.get(j) ==sumlength){
-
-                   System.out.println("if二個目：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")\n");
-                   continue;
-
-               }
-
-               if(lengthlist.get(i)+lengthlist.get(j)*2 ==sumlength){
-                    System.out.println("if三個目：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")\n");
-                    continue;
-               }
-
-               if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) == null){
-                    System.out.println("null判定の中：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")\n");
-                    continue;
-               }
-
-                   System.out.println("全部通過：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")\n");
-
-                count++;
+    private static void createByAuto(int sumlength,int number,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+        for(int length = 1 ; length <=number;length++){
+            lengthlist.add(length);
+            if(sumlength-length <= length*2 - 3){
+                lengthmap.put(sumlength-length, length);
             }
         }
+    }
 
+    private static int countCombi(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+        int count=0;
+        for(int i = 0 ; i < lengthlist.size();i++){
+            if(lengthlist.get(i) < sumlength/3){
+                for(int j = i+1; lengthlist.get(j) < (sumlength-lengthlist.get(i))/2.0 ; j++){
+//                    System.out.println("判定前：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")");
+                    if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) != null){
+//                        System.out.println("全部通過：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")\n");
+                        count++;
+                    }
+                }
+            }else{
+                break;
+            }
+        }
         return count;
-
     }
 
 }//クラスの終了

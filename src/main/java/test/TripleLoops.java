@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class TripleLoops {
     public static void main(String[] args) {
-        @SuppressWarnings("resource")
+
         Scanner sc = new Scanner(System.in);
 
         //3本の合計値が入ります。
@@ -17,7 +17,8 @@ public class TripleLoops {
         int[] lengtharray = new int[number];
 
         //数字の入力を受け付け()
-        setLengthArray(lengtharray);
+        setLengthArrayByHand(sc,lengtharray);
+//        setLengthArrayByAuto(lengtharray);
 
         System.out.println("計算を開始します。");
 
@@ -37,7 +38,16 @@ public class TripleLoops {
     /*
      * 本数分の長さの配列を作成
      */
-    private static void setLengthArray(int[]lengtharray){
+
+    private static void setLengthArrayByHand(Scanner sc,int[]lengtharray){
+        int length;
+        for(int i = 0 ; i < lengtharray.length;i++){
+            length = sc.nextInt();
+              lengtharray[i]=length;
+          }
+    }
+
+    private static void setLengthArrayByAuto(int[]lengtharray){
         for(int i = 1 ; i<=lengtharray.length;i++){
               lengtharray[i-1]=i;
           }

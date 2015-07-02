@@ -25,7 +25,7 @@ public class FindNumOfCombi {
         Map<Integer,Integer> lengthmap = new HashMap<Integer,Integer>();
 
         //入力を受け付け、リストとマップを生成。
-        createByHand(sc,number,sumlength,lengthlist,lengthmap);
+        createByHand(sc,sumlength,number,lengthlist,lengthmap);
 
         //生成されたリストのソート
         Collections.sort(lengthlist);
@@ -96,7 +96,6 @@ public class FindNumOfCombi {
                 break;
             }
         }
-
         return count;
     }
 }//クラスの終了
