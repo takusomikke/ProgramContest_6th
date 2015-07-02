@@ -10,13 +10,13 @@
  * と入力した場合組み合わせの数は　
  * 8328334
  * です。
- * 最速179ms
+ * 最速175ms
  *
  * 100000
  * 100000
  * と入力した場合の組み合わせの数は
  * 833283334
- * 14004ms
+ * 13908ms
  */
 
 package test;
@@ -99,14 +99,16 @@ public class FindNumOfCombiTest {
     private static int countWithoutComment(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
         int count=0;
         for(int i = 0 ; i < lengthlist.size();i++){
-            if(lengthlist.get(i)>sumlength/3-1){
+            if(lengthlist.get(i) <= sumlength/3-1){
+                for(int j = i+1; lengthlist.get(j)<(sumlength-lengthlist.get(i))/2.0 ; j++){
+                    if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) != null){
+                        count++;
+                    }
+                }
+            }else{
                 break;
             }
-            for(int j = i+1; lengthlist.get(j)<(sumlength-lengthlist.get(i))/2.0 ; j++){
-                if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) != null){
-                    count++;
-                }
-            }
+
         }
 
         return count;
