@@ -64,17 +64,7 @@ public class FindNumOfCombiTest {
       //3つ目の数字を見つけるためのマップです。
       Map<Integer,Integer> lengthmap = new HashMap<Integer,Integer>();
 
-      /* 1本ずつの長さの入力を受け付けます。
-       *
-       * キーの値は3つ目の数字として呼び出されるときの値を入れています。
-       * 例)入力された数字が2の場合
-       * 1本目、2本目の値の合計が8の時に3本目として2が必要とされる。
-       * よって、キーを8、値を2としている。
-       */
-
-      /*
-       * 1本ずつ入力するか、自動生成か選択
-       */
+      //1本ずつ入力するか、自動生成か選択
 //      createByHand(sc,sumlength,number,lengthlist,lengthmap);
       createByAuto(sumlength,number,lengthlist,lengthmap);
 
@@ -111,10 +101,18 @@ public class FindNumOfCombiTest {
     }
 
     private static void createByAuto(int sumlength,int number,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+
+        int key;
+        int max_key_value;
+
         for(int length = 1 ; length <=number;length++){
             lengthlist.add(length);
-            if(sumlength-length <= length*2 - 3){
-                lengthmap.put(sumlength-length, length);
+
+            key = sumlength -length;
+            max_key_value = length * 2 - MIN_NUM_OF_SUM;
+
+            if(key <= max_key_value){
+                lengthmap.put(key, length);
             }
         }
     }

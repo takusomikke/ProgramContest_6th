@@ -26,25 +26,25 @@ public class FindNumOfCombi {
         Scanner sc = new Scanner(System.in);
 
         //3本の合計値を入力。
-        final int SUM_OF_THREE= sc.nextInt();
+        final int SUM_OF_THREE = sc.nextInt();
 
         //入力される本数を入力。
-        int NUM_TO_BE_ENTERD = sc.nextInt();
+        final int NUM_TO_BE_ENTERD = sc.nextInt();
 
         //それぞれの長さを格納するリストを作成。
-        List<Integer> lengthlist= new ArrayList<Integer>();
+        List<Integer> lengthList = new ArrayList<Integer>();
 
         //3つ目の数字を見つけるためのマップを作成。
-        Map<Integer,Integer> lengthmap = new HashMap<Integer,Integer>();
+        Map<Integer,Integer> find3rdMap = new HashMap<Integer,Integer>();
 
         //入力を受け付け、リストとマップを生成。
-        createByHand(sc,SUM_OF_THREE,NUM_TO_BE_ENTERD,lengthlist,lengthmap);
+        listenToLength(sc,SUM_OF_THREE,NUM_TO_BE_ENTERD,lengthList,find3rdMap);
 
         //生成されたリストのソート
-        Collections.sort(lengthlist);
+        Collections.sort(lengthList);
 
         //組み合わせを数え上げる。
-        int count =countCombi(SUM_OF_THREE,lengthlist,lengthmap);
+        int count = countCombi(SUM_OF_THREE,lengthList,find3rdMap);
 
         System.out.println(count);
 
@@ -57,22 +57,27 @@ public class FindNumOfCombi {
      * @param SUM_OF_THREE     //3本の合計値
      * @param NUM_TO_BE_ENTERD        //入力を受け付ける本数
      * @param lengthlist    //入力された数字を格納する。のちにソートされる。
-     * @param lengthmap     //入力された数字を必要とする数字をキーとして、入力された値を格納。
+     * @param find3rdMap    //入力された数字が3本目となるときの、2本目までの合計値をキーとしている
+     * @param key           //3本の合計値から入力された数字を引いたもの、すなわち2本目までの合計値を示す
+     * @param max_key_value //キーとしての最大値を示す(※)。
      *
-     * 必要とする数字の例。SUM_OF_THREEが10で、入力された数字が7の場合。
-     * 1本目、2本目の値の合計が3の時に3本目として7が必要とされる。
-     * よって、キーを3、値を7としている。
+     * ※ 3本の組み合わせ(A,B,C)に対して A < B < C の条件が付いているとき
      *
-     * マップ格納時のif文は、キーが絶対に呼び出されることのない値のときに格納せず、
-     * メモリーを無駄に使わないようにしている。
      */
-    private static void createByHand(Scanner sc,int SUM_OF_THREE,int NUM_TO_BE_ENTERD,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+    private static void listenToLength(Scanner sc,int SUM_OF_THREE,int NUM_TO_BE_ENTERD,List<Integer> lengthList, Map<Integer,Integer> find3rdMap){
         int length;
+        int key;
+        int max_key_value;
+
         for(int i = 0 ; i < NUM_TO_BE_ENTERD;i++){
             length = sc.nextInt();
-            lengthlist.add(length);
-            if(SUM_OF_THREE-length <= length * 2 - MIN_NUM_OF_SUM){
-                lengthmap.put(SUM_OF_THREE-length, length);
+            lengthList.add(length);
+
+            key = SUM_OF_THREE - length;
+            max_key_value = length * 2 - MIN_NUM_OF_SUM;
+
+            if( key <= max_key_value ){
+                find3rdMap.put( key , length);
             }
         }
     }
@@ -82,7 +87,7 @@ public class FindNumOfCombi {
      *
      * @param SUM_OF_THREE  //3本の合計値
      * @param lengthlist    //入力された数字がソート済みのリスト
-     * @param lengthmap     //入力された数字を必要とする数字をキーとして、入力された値を格納されたマップ。
+     * @param find3rdMap     //入力された数字を必要とする数字をキーとして、入力された値を格納されたマップ。
      *
      * return       //3本の合計がSUM_OF_THREEのものをカウントし、返す。
      *
@@ -97,12 +102,14 @@ public class FindNumOfCombi {
      * 以上の制約を潜り抜け、ハッシュマップがnullを返さなければカウントする。
      *
      */
-    private static int countCombi(int SUM_OF_THREE,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+    private static int countCombi(int SUM_OF_THREE,List<Integer> sortedLengthList, Map<Integer,Integer> find3rdMap){
+
         int count=0;
-        for(int i = 0 ; i < lengthlist.size();i++){
-            if(lengthlist.get(i) < SUM_OF_THREE / NUM_TO_BE_COMBINED){
-                for(int j = i+1; lengthlist.get(j) < (SUM_OF_THREE-lengthlist.get(i)) / 2.0 ; j++){
-                    if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) != null){
+
+        for(int i = 0 ; i < sortedLengthList.size();i++){
+            if(sortedLengthList.get(i) < SUM_OF_THREE / NUM_TO_BE_COMBINED){
+                for(int j = i+1; sortedLengthList.get(j) < (SUM_OF_THREE-sortedLengthList.get(i)) / 2.0 ; j++){
+                    if(find3rdMap.get(sortedLengthList.get(i)+sortedLengthList.get(j)) != null){
                         count++;
                     }
                 }
