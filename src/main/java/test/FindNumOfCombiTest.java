@@ -64,11 +64,13 @@ public class FindNumOfCombiTest {
       //3つ目の数字を見つけるためのマップです。
       Map<Integer,Integer> lengthmap = new HashMap<Integer,Integer>();
 
+
+      long start = System.currentTimeMillis();
+
       //1本ずつ入力するか、自動生成か選択
 //      createByHand(sc,sumlength,number,lengthlist,lengthmap);
       createByAuto(sumlength,number,lengthlist,lengthmap);
 
-      long start = System.currentTimeMillis();
 
       Collections.sort(lengthlist);
 

@@ -92,10 +92,7 @@ public class FindNumOfCombi {
      * return       //3本の合計がSUM_OF_THREEのものをカウントし、返す。
      *
      * ■for文の処理回数を絞る条件
-     * 3本の組み合わせ(A,B,C)に対して
-     * for(int j = i+1)でA < Bの条件を付与していて、
-     * B < C の条件は言い換えると BがBとCの合計値の半分を超えない範囲なので
-     * lengthlist.get(j)<(SUM_OF_THREE-lengthlist.get(i))/2.0 でその条件を付与している。
+     * 3本の組み合わせ(A,B,C)に対して、A < B < C の条件を付与。
      * また、Aが合計の1/3を超える組み合わせはあり得ないので、超えた時点でbreak。
      *
      * ■カウント条件
