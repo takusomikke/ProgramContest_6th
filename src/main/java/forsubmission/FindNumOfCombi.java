@@ -26,6 +26,11 @@ public class FindNumOfCombi {
     private static int NUM_TO_BE_ENTERD;
 
     /*
+     * 許容範囲内の最大の数字を格納
+     */
+    private static int max;
+
+    /*
      * mainメソッド
      */
     public static void main(String[] args) {
@@ -95,6 +100,7 @@ public class FindNumOfCombi {
                 zerocount++;
             }else{
                 lengtharray[i-zerocount] = tmp[i];
+                max = tmp[i];
             }
         }
     }
@@ -113,9 +119,12 @@ public class FindNumOfCombi {
      *
      */
     private static int countCombi(int[] lengtharray,int[] keyarray){
+        if(max < (Math.ceil((double)SUM_OF_THREE / NUM_TO_BE_COMBINED) +1)){
+            return 0;
+        }
         int count=0;
-        for(int i = 0 ; lengtharray[i] < SUM_OF_THREE / NUM_TO_BE_COMBINED && i < NUM_TO_BE_ENTERD-2;i++){
-            for(int j = i+1; lengtharray[j] < (SUM_OF_THREE-lengtharray[i]) /2.0  && j < NUM_TO_BE_ENTERD-1; j++){
+        for(int i = 0 ; lengtharray[i] < SUM_OF_THREE / NUM_TO_BE_COMBINED;i++){
+            for(int j = i+1; lengtharray[j] < (SUM_OF_THREE-lengtharray[i]) /2.0; j++){
                 count += keyarray[lengtharray[i]+lengtharray[j]];
             }
         }
