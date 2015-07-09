@@ -1,6 +1,6 @@
 /*
- * 3本の合計値(sumlength)と本数(number)を入力すると自動的に
- * 1,2,3,････ number という配列を生成することで
+ * 3本の合計値(SUM_OF_THREE)と本数(NUM_TO_BE_ENTERD)を入力すると自動的に
+ * 1,2,3,････ NUM_TO_BE_ENTERD という配列を生成することで
  * 仮想的に本数分の入力がされる。
  * 時間測定の機能もあるので、アルゴリズムのスピードも図れる
  *
@@ -34,12 +34,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class FindNumOfCombiTest {
+public class ListHashMap {
 
     /*
      * 組み合わせる本数
      */
-    private static final int NUMB_TO_BE_COMBINED = 3;
+    private static final int NUM_TO_BE_COMBINED = 3;
 
     /*
      * 棒の長さは、1以上の自然数で重複なしなので
@@ -53,10 +53,10 @@ public class FindNumOfCombiTest {
       Scanner sc = new Scanner(System.in);
 
       //3本の合計値が入ります。
-      int sumlength= sc.nextInt();
+      int SUM_OF_THREE= sc.nextInt();
 
       //入力される本数が入ります。
-      int number = sc.nextInt();
+      int NUM_TO_BE_ENTERD = sc.nextInt();
 
       //それぞれの長さを格納するリストを作ります。
       List<Integer> lengthlist= new ArrayList<Integer>();
@@ -68,8 +68,8 @@ public class FindNumOfCombiTest {
       long start = System.currentTimeMillis();
 
       //1本ずつ入力するか、自動生成か選択
-      createByHand(sc,sumlength,number,lengthlist,lengthmap);
-//      createByAuto(sumlength,number,lengthlist,lengthmap);
+      createByHand(sc,SUM_OF_THREE,NUM_TO_BE_ENTERD,lengthlist,lengthmap);
+//      createByAuto(SUM_OF_THREE,NUM_TO_BE_ENTERD,lengthlist,lengthmap);
 
 
       Collections.sort(lengthlist);
@@ -81,7 +81,7 @@ public class FindNumOfCombiTest {
 
       System.out.println("計算を開始します。");
 
-      int count =countCombi(sumlength,lengthlist,lengthmap);
+      int count =countCombi(SUM_OF_THREE,lengthlist,lengthmap);
 
       long end = System.currentTimeMillis();
       System.out.println(count);
@@ -91,39 +91,48 @@ public class FindNumOfCombiTest {
     }//mainメソッドの終わり
 
 
-    private static void createByHand(Scanner sc,int sumlength,int number,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+    private static void createByHand(Scanner sc,int SUM_OF_THREE,int NUM_TO_BE_ENTERD,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
         int length;
-        for(int i = 0 ; i < number;i++){
-            length = sc.nextInt();
-            lengthlist.add(length);
-            if(sumlength-length <= length*2 - MIN_NUM_OF_SUM){
-                lengthmap.put(sumlength-length, length);
-            }
-        }
-    }
-
-    private static void createByAuto(int sumlength,int number,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
-
         int key;
+        int min_key_value = (int)Math.ceil( SUM_OF_THREE / NUM_TO_BE_ENTERD )+1;
         int max_key_value;
 
-        for(int length = 1 ; length <=number;length++){
+        for(int i = 0 ; i < NUM_TO_BE_ENTERD;i++){
+            length = sc.nextInt();
             lengthlist.add(length);
 
-            key = sumlength -length;
+            key = SUM_OF_THREE -length;
             max_key_value = length * 2 - MIN_NUM_OF_SUM;
 
-            if(key <= max_key_value){
+            if(min_key_value <= key && key <= max_key_value){
                 lengthmap.put(key, length);
             }
         }
     }
 
-    private static int countCombi(int sumlength,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+    private static void createByAuto(int SUM_OF_THREE,int NUM_TO_BE_ENTERD,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
+
+        int key;
+        int min_key_value = (int)Math.ceil( SUM_OF_THREE / NUM_TO_BE_ENTERD )+1;
+        int max_key_value;
+
+        for(int length = 1 ; length <=NUM_TO_BE_ENTERD;length++){
+            lengthlist.add(length);
+
+            key = SUM_OF_THREE -length;
+            max_key_value = length * 2 - MIN_NUM_OF_SUM;
+
+            if(min_key_value <= key && key <= max_key_value){
+                lengthmap.put(key, length);
+            }
+        }
+    }
+
+    private static int countCombi(int SUM_OF_THREE,List<Integer> lengthlist, Map<Integer,Integer> lengthmap){
         int count=0;
         for(int i = 0 ; i < lengthlist.size();i++){
-            if(lengthlist.get(i) < sumlength / NUMB_TO_BE_COMBINED){
-                for(int j = i+1; lengthlist.get(j) < (sumlength-lengthlist.get(i))/2.0 ; j++){
+            if(lengthlist.get(i) < SUM_OF_THREE / NUM_TO_BE_COMBINED){
+                for(int j = i+1; lengthlist.get(j) < (SUM_OF_THREE-lengthlist.get(i))/2.0 ; j++){
 //                    System.out.println("判定前：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")");
                     if(lengthmap.get(lengthlist.get(i)+lengthlist.get(j)) != null){
 //                        System.out.println("全部通過：("+lengthlist.get(i)+","+lengthlist.get(j)+","+lengthmap.get(lengthlist.get(i)+lengthlist.get(j))+")\n");
