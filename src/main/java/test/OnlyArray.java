@@ -13,7 +13,7 @@ public class OnlyArray {
      * 棒の長さは、1以上の自然数で重複なしなので
      * 2本の最小値は 1 + 2 = 3である。
      */
-    private static final int MIN_NUM_OF_SUM = 3;
+    private static final int MIN_SUM_OF_TWO = 3;
 
     public static void main(String[] args) {
 
@@ -55,16 +55,14 @@ public class OnlyArray {
     private static void createByHand(Scanner sc,int SUM_OF_THREE,int NUM_TO_BE_ENTERD,int[] lengtharray){
         int length;
         int key;
-        int min_key_value = (int)Math.ceil( SUM_OF_THREE / NUM_TO_BE_ENTERD )+1;
-        int max_key_value;
+        int max_key_value = (SUM_OF_THREE/NUMB_TO_BE_COMBINED) * 2 - 1 ;
 
         for(int i = 0 ; i < NUM_TO_BE_ENTERD;i++){
             length = sc.nextInt();
 
             key = SUM_OF_THREE -length;
-            max_key_value = length * 2 - MIN_NUM_OF_SUM;
 
-            if(min_key_value < key && key <= max_key_value){
+            if(MIN_SUM_OF_TWO <= key && key <= max_key_value){
                 lengtharray[key]=1;
             }
         }
@@ -73,15 +71,13 @@ public class OnlyArray {
     private static void createByAuto(int SUM_OF_THREE,int NUM_TO_BE_ENTERD,int[] lengtharray){
 
         int key;
-        int min_key_value = (int)Math.ceil( SUM_OF_THREE / NUM_TO_BE_ENTERD )+1;
-        int max_key_value;
+        int max_key_value = (SUM_OF_THREE/NUMB_TO_BE_COMBINED)*2-1;
 
         for(int length = 1 ; length <=NUM_TO_BE_ENTERD;length++){
 
             key = SUM_OF_THREE -length;
-            max_key_value = length * 2 - MIN_NUM_OF_SUM;
 
-            if(min_key_value < key && key <= max_key_value){
+            if(MIN_SUM_OF_TWO <= key && key <= max_key_value){
                 lengtharray[key]=1;
             }
         }

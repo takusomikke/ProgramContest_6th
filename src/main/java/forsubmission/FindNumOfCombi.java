@@ -13,7 +13,7 @@ public class FindNumOfCombi {
      * 棒の長さは、1以上の自然数で重複なしなので
      * 2本の最小値は 1 + 2 = 3である。
      */
-    private static final int MIN_NUM_OF_SUM = 3;
+    private static final int MIN_SUM_OF_TWO = 3;
 
 
     public static void main(String[] args) {
@@ -51,7 +51,6 @@ public class FindNumOfCombi {
      * @param lengtharray       //3本目として必要とされるときの値をindexとし、値には1を代入する。
      *                          //前提がカウントするだけではなく組み合わせの表示もしたい場合は1ではなく、lengthを入れる。
      * @param key           //3本の合計値から入力された数字を引いたもの、すなわち2本目までの合計値を示す。
-     *
      * @param max_key_value //キーとしての最大値を示す(※)。
      *
      * ※ 3本の組み合わせ(A,B,C)に対して A < B < C の条件が付いているとき
@@ -60,16 +59,14 @@ public class FindNumOfCombi {
     private static void listenToLength(Scanner sc,int SUM_OF_THREE,int NUM_TO_BE_ENTERD,int[] lengtharray){
         int length;
         int key;
-        int min_key_value = (int)Math.ceil( SUM_OF_THREE / NUM_TO_BE_ENTERD )+1;
-        int max_key_value;
+        int max_key_value = (SUM_OF_THREE/NUM_TO_BE_COMBINED) * 2 - 1 ;
 
         for(int i = 0 ; i < NUM_TO_BE_ENTERD;i++){
             length = sc.nextInt();
 
             key = SUM_OF_THREE -length;
-            max_key_value = length * 2 - MIN_NUM_OF_SUM;
 
-            if(min_key_value <= key && key <= max_key_value){
+            if(MIN_SUM_OF_TWO  <= key && key <= max_key_value){
                 lengtharray[key]=1;
             }
         }
