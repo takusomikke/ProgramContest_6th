@@ -68,8 +68,8 @@ public class ListHashMap {
       long start = System.currentTimeMillis();
 
       //1本ずつ入力するか、自動生成か選択
-      createByHand(sc,SUM_OF_THREE,NUM_TO_BE_ENTERD,lengthlist,lengthmap);
-//      createByAuto(SUM_OF_THREE,NUM_TO_BE_ENTERD,lengthlist,lengthmap);
+//      createByHand(sc,SUM_OF_THREE,NUM_TO_BE_ENTERD,lengthlist,lengthmap);
+      createByAuto(SUM_OF_THREE,NUM_TO_BE_ENTERD,lengthlist,lengthmap);
 
 
       Collections.sort(lengthlist);

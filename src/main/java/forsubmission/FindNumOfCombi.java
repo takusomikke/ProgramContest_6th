@@ -59,14 +59,14 @@ public class FindNumOfCombi {
     private static void listenToLength(Scanner sc,int SUM_OF_THREE,int NUM_TO_BE_ENTERD,int[] lengtharray){
         int length;
         int key;
-        int max_key_value = (SUM_OF_THREE/NUM_TO_BE_COMBINED) * 2 - 1 ;
+        final int max_key_value = (SUM_OF_THREE/NUM_TO_BE_COMBINED) * 2 - 1 ;
 
         for(int i = 0 ; i < NUM_TO_BE_ENTERD;i++){
             length = sc.nextInt();
 
             key = SUM_OF_THREE -length;
 
-            if(MIN_SUM_OF_TWO  <= key && key <= max_key_value){
+            if(key <= max_key_value && MIN_SUM_OF_TWO  <= key){
                 lengtharray[key]=1;
             }
         }

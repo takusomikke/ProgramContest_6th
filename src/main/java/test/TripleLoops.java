@@ -17,8 +17,8 @@ public class TripleLoops {
         int[] lengtharray = new int[number];
 
         //数字の入力を受け付け()
-        setLengthArrayByHand(sc,lengtharray);
-//        setLengthArrayByAuto(lengtharray);
+//        setLengthArrayByHand(sc,lengtharray);
+        setLengthArrayByAuto(lengtharray);
 
         System.out.println("計算を開始します。");
 
