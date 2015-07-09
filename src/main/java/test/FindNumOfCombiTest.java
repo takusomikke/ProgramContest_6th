@@ -68,8 +68,8 @@ public class FindNumOfCombiTest {
       long start = System.currentTimeMillis();
 
       //1本ずつ入力するか、自動生成か選択
-//      createByHand(sc,sumlength,number,lengthlist,lengthmap);
-      createByAuto(sumlength,number,lengthlist,lengthmap);
+      createByHand(sc,sumlength,number,lengthlist,lengthmap);
+//      createByAuto(sumlength,number,lengthlist,lengthmap);
 
 
       Collections.sort(lengthlist);

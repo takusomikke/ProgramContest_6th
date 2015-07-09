@@ -1,10 +1,5 @@
 package forsubmission;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class FindNumOfCombi {
@@ -31,20 +26,14 @@ public class FindNumOfCombi {
         //入力される本数を入力。
         final int NUM_TO_BE_ENTERD = sc.nextInt();
 
-        //それぞれの長さを格納するリストを作成。
-        List<Integer> lengthList = new ArrayList<Integer>();
-
-        //3つ目の数字を見つけるためのマップを作成。
-        Map<Integer,Integer> find3rdMap = new HashMap<Integer,Integer>();
+        //それぞれの長さを格納する配列を作ります。
+        int[] lengtharray= new int[SUM_OF_THREE+1];
 
         //入力を受け付け、リストとマップを生成。
-        listenToLength(sc,SUM_OF_THREE,NUM_TO_BE_ENTERD,lengthList,find3rdMap);
-
-        //生成されたリストのソート
-        Collections.sort(lengthList);
+        listenToLength(sc,SUM_OF_THREE,NUM_TO_BE_ENTERD,lengtharray);
 
         //組み合わせを数え上げる。
-        int count = countCombi(SUM_OF_THREE,lengthList,find3rdMap);
+        int count = countCombi(SUM_OF_THREE,lengtharray);
 
         System.out.println(count);
 
@@ -64,20 +53,19 @@ public class FindNumOfCombi {
      * ※ 3本の組み合わせ(A,B,C)に対して A < B < C の条件が付いているとき
      *
      */
-    private static void listenToLength(Scanner sc,int SUM_OF_THREE,int NUM_TO_BE_ENTERD,List<Integer> lengthList, Map<Integer,Integer> find3rdMap){
+    private static void listenToLength(Scanner sc,int SUM_OF_THREE,int NUM_TO_BE_ENTERD,int[] lengtharray){
         int length;
         int key;
         int max_key_value;
 
         for(int i = 0 ; i < NUM_TO_BE_ENTERD;i++){
             length = sc.nextInt();
-            lengthList.add(length);
 
-            key = SUM_OF_THREE - length;
+            key = SUM_OF_THREE -length;
             max_key_value = length * 2 - MIN_NUM_OF_SUM;
 
-            if( key <= max_key_value ){
-                find3rdMap.put( key , length);
+            if(key <= max_key_value){
+                lengtharray[key]=1;
             }
         }
     }
@@ -99,21 +87,12 @@ public class FindNumOfCombi {
      * 以上の制約を潜り抜け、ハッシュマップがnullを返さなければカウントする。
      *
      */
-    private static int countCombi(int SUM_OF_THREE,List<Integer> sortedLengthList, Map<Integer,Integer> find3rdMap){
-
+    private static int countCombi(int sumlength,int[] lengtharray){
         int count=0;
-
-        for(int i = 0 ; i < sortedLengthList.size();i++){
-            if(sortedLengthList.get(i) < SUM_OF_THREE / NUM_TO_BE_COMBINED){
-                for(int j = i+1; sortedLengthList.get(j) < (SUM_OF_THREE-sortedLengthList.get(i)) / 2.0 ; j++){
-                    if(find3rdMap.get(sortedLengthList.get(i)+sortedLengthList.get(j)) != null){
-                        count++;
-                    }
+        for(int i = 1 ; i < sumlength / NUM_TO_BE_COMBINED;i++){
+                for(int j = i+1; j < (sumlength-i) /2.0 ; j++){
+                    count += lengtharray[i+j];
                 }
-            }
-            else{
-                break;
-            }
         }
         return count;
     }
