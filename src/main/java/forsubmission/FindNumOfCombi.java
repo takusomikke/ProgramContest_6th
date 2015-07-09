@@ -75,7 +75,7 @@ public class FindNumOfCombi {
         int max_key_value = (SUM_OF_THREE/NUM_TO_BE_COMBINED)*2-1;
 
         int zerocount=0;
-        int[] tmp = new int[SUM_OF_THREE];
+        int[] tmp = new int[SUM_OF_THREE+1];
 
         for(int i = 0 ; i < NUM_TO_BE_ENTERD;i++){
             length = sc.nextInt();
@@ -114,8 +114,8 @@ public class FindNumOfCombi {
      */
     private static int countCombi(int[] lengtharray,int[] keyarray){
         int count=0;
-        for(int i = 0 ; lengtharray[i] < SUM_OF_THREE / NUM_TO_BE_COMBINED;i++){
-            for(int j = i+1; lengtharray[j] < (SUM_OF_THREE-lengtharray[i]) /2.0 ; j++){
+        for(int i = 0 ; lengtharray[i] < SUM_OF_THREE / NUM_TO_BE_COMBINED && i < NUM_TO_BE_ENTERD-2;i++){
+            for(int j = i+1; lengtharray[j] < (SUM_OF_THREE-lengtharray[i]) /2.0  && j < NUM_TO_BE_ENTERD-1; j++){
                 count += keyarray[lengtharray[i]+lengtharray[j]];
             }
         }
