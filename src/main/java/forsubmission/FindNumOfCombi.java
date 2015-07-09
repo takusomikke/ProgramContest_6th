@@ -11,29 +11,41 @@ public class FindNumOfCombi {
 
     /*
      * 棒の長さは、1以上の自然数で重複なしなので
-     * 2本の最小値は 1 + 2 = 3である。
+     * 2本の合計の最小値は 1 + 2 = 3である。
      */
     private static final int MIN_SUM_OF_TWO = 3;
 
+    /*
+     * 3本の合計値が入ります。
+     */
+    private static int SUM_OF_THREE;
 
+    /*
+     * 入力される本数が入ります。
+     */
+    private static int NUM_TO_BE_ENTERD;
+
+    /*
+     * mainメソッド
+     */
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        //3本の合計値を入力。
-        final int SUM_OF_THREE = sc.nextInt();
+        SUM_OF_THREE= sc.nextInt();
+        NUM_TO_BE_ENTERD = sc.nextInt();
 
-        //入力される本数を入力。
-        final int NUM_TO_BE_ENTERD = sc.nextInt();
+        //keyを格納する配列を作ります。
+        int[] keyarray= new int[SUM_OF_THREE+1];
 
-        //それぞれの長さを格納する配列を作ります。
-        int[] lengtharray= new int[SUM_OF_THREE+1];
+        //入力される数字を格納します。
+        int[] lengtharray = new int[NUM_TO_BE_ENTERD];
 
         //入力を受け付け、リストとマップを生成。
-        listenToLength(sc,SUM_OF_THREE,NUM_TO_BE_ENTERD,lengtharray);
+        listenToLength(sc,lengtharray,keyarray);
 
         //組み合わせを数え上げる。
-        int count = countCombi(SUM_OF_THREE,lengtharray);
+        int count =countCombi(lengtharray,keyarray);
 
         System.out.println(count);
 
@@ -56,18 +68,33 @@ public class FindNumOfCombi {
      * ※ 3本の組み合わせ(A,B,C)に対して A < B < C の条件が付いているとき
      *
      */
-    private static void listenToLength(Scanner sc,int SUM_OF_THREE,int NUM_TO_BE_ENTERD,int[] lengtharray){
+    private static void listenToLength(Scanner sc,int[] lengtharray,int[] keyarray){
+
         int length;
         int key;
-        final int max_key_value = (SUM_OF_THREE/NUM_TO_BE_COMBINED) * 2 - 1 ;
+        int max_key_value = (SUM_OF_THREE/NUM_TO_BE_COMBINED)*2-1;
+
+        int zerocount=0;
+        int[] tmp = new int[SUM_OF_THREE];
 
         for(int i = 0 ; i < NUM_TO_BE_ENTERD;i++){
             length = sc.nextInt();
-
             key = SUM_OF_THREE -length;
 
-            if(key <= max_key_value && MIN_SUM_OF_TWO  <= key){
-                lengtharray[key]=1;
+            if(1 <= length && length <= SUM_OF_THREE - MIN_SUM_OF_TWO){
+                tmp[length]=length;
+            }
+
+            if(MIN_SUM_OF_TWO <= key && key <= max_key_value){
+//                System.out.println("length:"+length+"key:"+key);
+                keyarray[key]=1;
+            }
+        }
+        for(int i =0; i < SUM_OF_THREE; i++){
+            if(tmp[i] == 0){
+                zerocount++;
+            }else{
+                lengtharray[i-zerocount] = tmp[i];
             }
         }
     }
@@ -85,11 +112,11 @@ public class FindNumOfCombi {
      * 以上の制約内ですべて足す(3本目が存在していなければ0を返すので条件判定をせずにすべて足している)
      *
      */
-    private static int countCombi(int sumlength,int[] lengtharray){
+    private static int countCombi(int[] lengtharray,int[] keyarray){
         int count=0;
-        for(int i = 1 ; i < sumlength / NUM_TO_BE_COMBINED;i++){
-            for(int j = i+1; j < (sumlength-i) /2.0 ; j++){
-                count += lengtharray[i+j];
+        for(int i = 0 ; lengtharray[i] < SUM_OF_THREE / NUM_TO_BE_COMBINED;i++){
+            for(int j = i+1; lengtharray[j] < (SUM_OF_THREE-lengtharray[i]) /2.0 ; j++){
+                count += keyarray[lengtharray[i]+lengtharray[j]];
             }
         }
         return count;
