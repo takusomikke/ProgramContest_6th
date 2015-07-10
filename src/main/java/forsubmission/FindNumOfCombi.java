@@ -41,6 +41,7 @@ public class FindNumOfCombi {
         NUM_TO_BE_ENTERD = sc.nextInt();
 
         //keyを格納する配列を作ります。
+
         int[] keyarray= new int[SUM_OF_THREE - MIN_SUM_OF_TWO];
 
         //入力される数字を格納します。
@@ -140,4 +141,3 @@ public class FindNumOfCombi {
         return count;
     }
 }//クラスの終了
-
