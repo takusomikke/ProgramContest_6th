@@ -26,7 +26,7 @@ public class FindNumOfCombi {
     private static int NUM_TO_BE_ENTERD;
 
     /*
-     * 許容範囲内の最大の数字を格納
+     * 入力された数字のうち、許容範囲内の最大の数字を格納
      */
     private static int max;
 
@@ -41,16 +41,16 @@ public class FindNumOfCombi {
         NUM_TO_BE_ENTERD = sc.nextInt();
 
         //keyを格納する配列を作ります。
-        int[] keyarray= new int[SUM_OF_THREE+1];
+        int[] keyarray= new int[SUM_OF_THREE - MIN_SUM_OF_TWO];
 
         //入力される数字を格納します。
-        int[] lengtharray = new int[NUM_TO_BE_ENTERD];
+        int[] sortedlengtharray = new int[NUM_TO_BE_ENTERD];
 
-        //入力を受け付け、リストとマップを生成。
-        listenToLength(sc,lengtharray,keyarray);
+        //入力を受け付け、配列を生成。
+        listenToLength(sc,sortedlengtharray,keyarray);
 
         //組み合わせを数え上げる。
-        int count =countCombi(lengtharray,keyarray);
+        int count =countCombi(sortedlengtharray,keyarray);
 
         System.out.println(count);
 
@@ -65,49 +65,53 @@ public class FindNumOfCombi {
      *
      * @param SUM_OF_THREE     //3本の合計値
      * @param NUM_TO_BE_ENTERD        //入力を受け付ける本数
-     * @param lengtharray       //3本目として必要とされるときの値をindexとし、値には1を代入する。
+     * @param sortedlengtharray      入力された数字がソートされて代入されていきます。
+     * @keyarray                //3本目として必要とされるときの値をindexとし、値には1を代入する。
      *                          //前提がカウントするだけではなく組み合わせの表示もしたい場合は1ではなく、lengthを入れる。
-     * @param key           //3本の合計値から入力された数字を引いたもの、すなわち2本目までの合計値を示す。
+     * @param key           //3本の合計値から入力された数字を引いたもの、すなわち入力された数字が必要とされる2本目までの合計値を示す。
      * @param max_key_value //キーとしての最大値を示す(※)。
      *
      * ※ 3本の組み合わせ(A,B,C)に対して A < B < C の条件が付いているとき
      *
      */
-    private static void listenToLength(Scanner sc,int[] lengtharray,int[] keyarray){
+    private static void listenToLength(Scanner sc,int[] sortedlengtharray,int[] keyarray){
 
         int length;
         int key;
         int max_key_value = (SUM_OF_THREE/NUM_TO_BE_COMBINED)*2-1;
 
         int zerocount=0;
-        int[] tmp = new int[SUM_OF_THREE+1];
+        int[] tmp_lengtharray = new int[SUM_OF_THREE+1];
 
         for(int i = 0 ; i < NUM_TO_BE_ENTERD;i++){
             length = sc.nextInt();
             key = SUM_OF_THREE -length;
 
             if(1 <= length && length <= SUM_OF_THREE - MIN_SUM_OF_TWO){
-                tmp[length]=length;
+                tmp_lengtharray[length-1]=length;
             }
-
             if(MIN_SUM_OF_TWO <= key && key <= max_key_value){
-//                System.out.println("length:"+length+"key:"+key);
                 keyarray[key]=1;
             }
         }
+
+        /*ソート済みの配列を作成
+         * maxはcountCombi()で使用
+         */
         for(int i =0; i < SUM_OF_THREE; i++){
-            if(tmp[i] == 0){
+            if(tmp_lengtharray[i] == 0){
                 zerocount++;
             }else{
-                lengtharray[i-zerocount] = tmp[i];
-                max = tmp[i];
+                sortedlengtharray[i-zerocount] = tmp_lengtharray[i];
+                max = tmp_lengtharray[i];
             }
         }
     }
 
     /*
      * @param SUM_OF_THREE  //3本の合計値
-     * @param lengthlist    //3本目として必要とされる数字がindexとして格納され、値は1が格納された配列
+     * @param sortedlengtharray     //入力された数字がソートされてはいっている
+     * @param keyarray              //3本目として必要とされる数字がindexとして格納され、値は1が格納された配列
      * return       //3本の合計がSUM_OF_THREEのものをカウントし、返す。
      *
      * ■for文の処理回数を絞る条件
@@ -118,14 +122,19 @@ public class FindNumOfCombi {
      * 以上の制約内ですべて足す(3本目が存在していなければ0を返すので条件判定をせずにすべて足している)
      *
      */
-    private static int countCombi(int[] lengtharray,int[] keyarray){
-        if(max < (Math.ceil((double)SUM_OF_THREE / NUM_TO_BE_COMBINED) +1)){
+    private static int countCombi(int[] sortedlengtharray,int[] keyarray){
+        /*
+         * maxが３本目の最小値より小さいとき、0を返す。
+         */
+        if(max < (double)SUM_OF_THREE / NUM_TO_BE_COMBINED +1){
             return 0;
         }
+
+        //組み合わせをカウントします。
         int count=0;
-        for(int i = 0 ; lengtharray[i] < SUM_OF_THREE / NUM_TO_BE_COMBINED;i++){
-            for(int j = i+1; lengtharray[j] < (SUM_OF_THREE-lengtharray[i]) /2.0; j++){
-                count += keyarray[lengtharray[i]+lengtharray[j]];
+        for(int i = 0 ; sortedlengtharray[i] < SUM_OF_THREE / NUM_TO_BE_COMBINED;i++){
+            for(int j = i+1; sortedlengtharray[j] < (SUM_OF_THREE-sortedlengtharray[i]) /2.0; j++){
+                count += keyarray[sortedlengtharray[i]+sortedlengtharray[j]];
             }
         }
         return count;
