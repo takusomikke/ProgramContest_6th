@@ -78,10 +78,10 @@ public class FindNumOfCombi {
 
         int length;
         int key;
-        int max_key_value = (SUM_OF_THREE/NUM_TO_BE_COMBINED)*2-1;
+        int max_key_value = (SUM_OF_THREE/NUM_TO_BE_COMBINED) * 2 - 1 ;
 
         int zerocount=0;
-        int[] tmp_lengtharray = new int[SUM_OF_THREE+1];
+        int[] tmp_lengtharray = new int[SUM_OF_THREE + 1];
 
         for(int i = 0 ; i < NUM_TO_BE_ENTERD;i++){
             length = sc.nextInt();
@@ -98,6 +98,7 @@ public class FindNumOfCombi {
 
         /* 長さが入力されなかったところをつめて、詰め替える
          * maxはcountCombi()で使用
+         * 入力された数字のうち、以上の制約を潜り抜けた最大のものを格納しておく
          */
         for(int i =0; i < SUM_OF_THREE; i++){
             if(tmp_lengtharray[i] == 0){
