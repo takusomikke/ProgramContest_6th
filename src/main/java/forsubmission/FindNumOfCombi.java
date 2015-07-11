@@ -41,10 +41,9 @@ public class FindNumOfCombi {
         NUM_TO_BE_ENTERD = sc.nextInt();
 
         //keyを格納する配列を作ります。
-
         int[] keyarray= new int[SUM_OF_THREE - MIN_SUM_OF_TWO];
 
-        //入力される数字を格納します。
+        //入力される数字を格納する配列を作成します。
         int[] sortedlengtharray = new int[NUM_TO_BE_ENTERD];
 
         //入力を受け付け、配列を生成。
@@ -89,6 +88,7 @@ public class FindNumOfCombi {
             key = SUM_OF_THREE -length;
 
             if(1 <= length && length <= SUM_OF_THREE - MIN_SUM_OF_TWO){
+                //indexをlength-1とすることで、勝手にソートされていく
                 tmp_lengtharray[length-1]=length;
             }
             if(MIN_SUM_OF_TWO <= key && key <= max_key_value){
@@ -96,7 +96,7 @@ public class FindNumOfCombi {
             }
         }
 
-        /*ソート済みの配列を作成
+        /* 長さが入力されなかったところをつめて、詰め替える
          * maxはcountCombi()で使用
          */
         for(int i =0; i < SUM_OF_THREE; i++){
